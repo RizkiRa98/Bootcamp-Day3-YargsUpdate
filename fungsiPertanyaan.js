@@ -1,4 +1,5 @@
 const fs  = require('fs');
+const validator = require('validator');
 const { exit } = require('process');
 const readline = require('readline').createInterface({
   input: process.stdin,
@@ -67,9 +68,45 @@ const deleteData = (name) =>{
     exit();
   }else{
     console.log('Kontak tidak ada');
+    return false;
   }
 }
 
+const updateData = (oldName, name, email, mobile) =>{
+ const oldContact = JSON.parse(fs.readFileSync(dataPath, 'utf-8',));
+ //mencari data lama
+ const data = oldContact.findIndex((contact)=> contact.name.toLowerCase() === oldName.toLowerCase());
+  if(data === -1){
+    console.log('Kontak tidak ada');
+    return false;
+  }
+  const cek = oldContact.find((contact) => contact.name.toLowerCase() === name.toLowerCase());
+  if(cek){
+    console.log('Kontak Sudah Ada')
+    return false;
+  }
+  oldContact[data].name = name;
+  //cek validasi email
+  if(email){
+    if(!validator.isEmail(email)){
+      console.log('Format Email Salah!');
+      return false;
+    }
+    oldContact[data].email = email;
+  }
+  if(mobile){
+    if(!validator.isMobilePhone(mobile, 'id-ID')){
+      console.log('Format Phone Number Salah');
+      return false;
+    }
+    oldContact[data].mobile = mobile;
+  }
+
+  //simpan di data yang baru
+  fs.writeFileSync(dataPath, JSON.stringify(oldContact));
+  console.log(`Kontak dengan nama ${oldName} berhasil di update menjadi ${name}`);
+  readline.close();
+}
 //buat fungsi dengan variabel saveJawaban menggunakan arrow fungsi =>
  const saveJawaban = (name, email, mobile) => {
     const contact = {name, email, mobile}
@@ -89,6 +126,7 @@ const deleteData = (name) =>{
     readline.close();
  }
 
+
 //export fungsi agar bisa digunakan diluar file fungsi
  module.exports = {
   pertanyaan,
@@ -97,4 +135,5 @@ const deleteData = (name) =>{
   readData,
   listData,
   deleteData,
+  updateData,
  }

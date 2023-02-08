@@ -12,7 +12,7 @@ yargs.command({
       type: 'string',
     },
     email: {
-      describe: 'contact email',
+      describe: 'Contact email',
       demandOption: false,
       type: 'string',
     },
@@ -65,6 +65,36 @@ handler(){
   handler(argv){
   fungsiPertanyaan.initData();
     fungsiPertanyaan.deleteData(argv.name);
+  },
+})
+//command delete data
+.command({
+  command: 'update',
+  describe: ' Contact',
+  builder:{
+    oldName:{
+      describe: 'Old Contact Name',
+      demandOption: true,
+      type: 'string',
+    },
+    name:{
+      describe: 'New Contact Name',
+      demandOption: true,
+      type: 'string',
+    },
+    email:{
+      describe: 'Contact Email',
+      demandOption: false,
+      type: 'string',
+    },
+    mobile:{
+      describe: 'Contact Mobile Phone Number',
+      demandOption: true,
+      type: 'string',
+    },
+  },
+  handler(argv){
+    fungsiPertanyaan.updateData(argv.oldName, argv.name, argv.email, argv.mobile);
   },
 });
 
