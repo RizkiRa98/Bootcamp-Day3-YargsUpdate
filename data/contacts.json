@@ -1,1 +1,9 @@
-[{"name":"Rizki","email":"rizki1@gmail.com","mobile":"081563965621"}]
+[{
+  "name": "Rizki",
+  "email": "rizki@gmail.com",
+  "mobile": "081563965621"
+}, {
+  "name": "Udin",
+  "email": "udin@gmail.com",
+  "mobile": "081563965621"
+}]
