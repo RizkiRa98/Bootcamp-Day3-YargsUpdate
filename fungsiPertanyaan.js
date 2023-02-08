@@ -78,7 +78,7 @@ const deleteData = (name) => {
 const updateData = (oldName, name, email, mobile) => {
   const oldContact = JSON.parse(fs.readFileSync(dataPath, 'utf-8', ));
   //mencari data lama menggunakan findIndex dengan mendapatkan index array dan membandingkan dengan data array baru
-  const dataIndex = oldContact.findIndex((contact) => contact.name.toLowerCase() === oldName.toLowerCase());
+  const dataIndex = oldContact.findIndex((contact) => contact.name.toUpperCase() === oldName.toUpperCase());
   //cek data kontak lama dengan yang baru 
   if (dataIndex === -1) {
     console.log('Kontak tidak ada');
@@ -88,6 +88,8 @@ const updateData = (oldName, name, email, mobile) => {
   if (cek) {
     console.log('Kontak Sudah Ada')
     readline.close();
+    return false;
+
   }
   oldContact[dataIndex].name = name;
   //cek validasi email
